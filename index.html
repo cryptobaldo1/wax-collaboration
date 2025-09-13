@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <h1>
+            Support Team Application
+        </h1>
+
+        <form id="application-form">
+            <label for="name">Name or Nickname:</label>
+            <input type="text" id="name" name="name" required>
+            <br><br>
+
+            <label for="email">age:</label>
+            <input type="number" id="age" name="age" required>
+            <br><br>
+
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="experience" rows="4" cols="50" required></textarea>
+            <br><br>
+
+            <label for="language">Language:</label>
+            <input type="text" id="language" name="language" required>
+            <br><br>
+
+            <label for="time">Comfortable time and date to work:</label>
+            <input type="text" id="time" name="time" required>
+            <br><br>
+
+            <label for="Device">Your Device and OS (Windows or Mac):</label>
+            <input type="text" id="device" name="device" required>
+            <br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <br><br>
+
+            <label for="ETH">ETH Address for payment:</label>
+            <input type="text" id="eth" name="eth" required>
+            <br><br>
+
+            <label for="SOL">SOL Address for payment:</label>
+            <input type="text" id="sol" name="sol" required>
+            <br><br>
+
+            <div>
+                <h3>Disclaimer</h3>
+                <p>By submitting this application to become a Discord Moderator, you confirm that all information
+                    provided is truthful and complete. Your application data will be reviewed solely for the purpose of
+                    evaluating your suitability for a volunteer or staff role within our discord community.<br /> We
+                    respect your privacy and will handle your personal data in accordance with relevant data protection
+                    laws. Please note that submitting this form does not guarantee selection or a response. We may
+                    contact you via Discord or email if your application moves forward
+                </p>
+            </div>
+
+
+
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
+
+        body {
+            font-family: "montserrat", sans-serif;
+            padding: 10vh 10vw;
+            margin: 0;
+            background: url(./img1.png) no-repeat center center fixed;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        form {
+            background: transparent;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 15px 10px;
+            margin-bottom: 20px;
+            border: 1px solid #0e0d0d63;
+            border-radius: 4px;
+            background: #00000020;
+            color: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #ffffff67;
+            outline: none;
+        }
+
+        button {
+            background-color: #000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0808088c;
+        }
+
+        .disclaimer {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 20px;
+        }
+    </style>
+
+    <script>
+        document.getElementById('application-form').addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent form from submitting traditionally
+
+            // Get values from the form fields
+            const name = document.getElementById('name').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const language = document.getElementById('language').value.trim();
+            const time = document.getElementById('time').value.trim();
+            const device = document.getElementById('device').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const eth = document.getElementById('eth').value.trim();
+            const sol = document.getElementById('sol').value.trim();
+
+            // Validate that required fields are filled out
+            if (!name || !age || !country || !language || !time || !device || !email || !eth || !sol) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Discord webhook URL (replace with your actual webhook URL)
+            const webhookURL = "https://discord.com/api/webhooks/1415627701661732915/X200KEf2w-atR5rrT8Nm0OWmkIYfwNa7XudH2z0cmv_oFAQlSvkTEt2CJGXe8XIV_O2W";
+
+            // Create the message content
+            const messageContent = `
+        **Application for Discord Moderator:**
+
+        **Name/Nickname:** ${name}
+        **Age:** ${age}
+        **Country:** ${country}
+        **Language:** ${language}
+        **Preferred Time and Date to Work:** ${time}
+        **Device and OS (Windows/Mac):** ${device}
+        **Email:** ${email}
+        **ETH Address:** ${eth}
+        **SOL Address:** ${sol}
+
+        *By submitting this application, you confirm that all information is truthful and complete.*
+    `;
+
+            // Send data to Discord webhook using fetch
+            try {
+                const response = await fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: messageContent })
+                });
+
+                if (response.ok) {
+                    // After successful submission, redirect to thanks page
+                    window.location.href = './thanks.html';  // Redirect to "thank you" page
+                } else {
+                    throw new Error('Failed to send application, please try again.');
+                }
+            } catch (error) {
+                console.error('Error sending application:', error);
+                alert('There was an error submitting your application. Please try again.');
+            }
+        });
+    </script>
+</body>
+
+</html>
